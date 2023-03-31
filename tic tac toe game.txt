@@ -1,0 +1,121 @@
+from random import randrange
+board = [[1,2,3],[4,'X',6],[7,8,9]]
+
+def display_board(board):
+    # The function accepts one parameter containing the board's current status
+    # and prints it out to the console.
+    print("+-----"*3+"+")
+    print("|     |     |     |")
+    print("| ",board[0][0]," | ",board[0][1]," | ",board[0][2]," |")
+    print("|     |     |     |")
+    print("+-----"*3+"+")
+    print("|     |     |     |")
+    print("| ",board[1][0]," | ",board[1][1]," | ",board[1][2]," |")
+    print("|     |     |     |")
+    print("+-----"*3+"+")
+    print("|     |     |     |")
+    print("| ",board[2][0]," | ",board[2][1]," | ",board[2][2]," |")
+    print("|     |     |     |")
+    print("+-----"*3+"+")
+    
+def enter_move(board):
+    # The function accepts the board's current status, asks the user about their move, 
+    # checks the input, and updates the board according to the user's decision.
+    move = int(input("Enter your move: "))
+    if move == "" or move <1 or move > 9:
+        print("Bad input!! Enter a valid number")
+        return
+    move = int(move) - 1
+    row = int(move/3)
+    column = int(move%3)
+    current_value = board[row][column]
+    if current_value in ('O','X'):
+        print("Already occupied space! Enter a different value")
+        return
+    else:
+        board[row][column] = 'O'
+        return board
+def make_list_of_free_fields(board):
+    # The function browses the board and builds a list of all the free squares; 
+    # the list consists of tuples, while each tuple is a pair of row and column numbers.
+    free_fields = []
+    for i in range(0,3):
+        for j in range(0,3):
+            if board[i][j] in ('X','O'):
+                j+=1
+            else:
+                #print(i,j)
+                free_fields.append(tuple((i,j)))
+                j+=1
+        i+=1
+    return free_fields
+def victory_for(board, sign):
+    # The function analyzes the board's status in order to check if 
+    # the player using 'O's or 'X's has won the game
+    if sign=='O':
+        value = 1
+    elif sign=='X':
+        value = 2
+    else:
+        return None
+    for i in range(0,3):
+        if board[i][0] == sign and board[i][1] == sign and board[i][2] == sign:
+            return value
+        elif board[0][i] == sign and board[1][i] == sign and board [2][i] == sign:
+            return value
+    if board[0][0] == sign and board[1][1] ==sign and board[2][2] == sign:
+        return value
+    elif board[0][2] == sign and board[1][1] == sign and board[2][0] == sign:
+        return value
+    else:
+        return 0
+def draw_move(board):
+    # The function draws the computer's move and updates the board.
+    global free_space 
+    free_space = make_list_of_free_fields(board)
+    print(free_space)
+    while len(free_space)!=0:
+        random_num = randrange(9)
+        #print(random_num)
+        row = int(random_num/3)
+        column = int(random_num%3)
+        tuple_random = tuple((row,column))
+        #print(tuple_random)
+        if tuple_random in free_space:
+            board[row][column] = 'X'
+            break
+        else:
+            continue
+        
+    
+
+display_board(board)
+free_space = make_list_of_free_fields(board)
+while len(free_space)!=0:
+    if enter_move(board)!= None:
+        print("Entering your move")
+        print(victory_for(board,'O'))
+        if victory_for(board,'O') == 1:
+            
+            display_board(board)
+            print("You have won the game")
+            break
+        else:
+            print("Entering system move")
+            draw_move(board)
+            free_space = make_list_of_free_fields(board)
+            display_board(board)
+            print(board)
+            if victory_for(board,'X') == 2:
+                print("Computer has won the game")
+                break
+    print(len(free_space))
+if len(free_space) == 0:
+    if victory_for(board,'X') == 0 or victory_for(board,'O') == 0:
+        print("Its a draw")
+        display_board(board)
+    else:
+        print("Some error occured")
+
+
+

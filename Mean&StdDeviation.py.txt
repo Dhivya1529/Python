@@ -1,0 +1,15 @@
+#%%
+import random
+numList = []
+random.seed(150)
+for i in range(0,25):
+    numList.append(round(100*random.random(),1))
+#%%   
+def problem4_2(ran_list):
+    """ Compute the mean and standard deviation of a list of floats """
+    #pass # replace this pass (a do-nothing) statement with your code
+    mean = sum(ran_list)/len(numList)
+    listSD = (sum((x-(sum(ran_list) / len(ran_list)))**2 for x in ran_list) / (len(ran_list)-1))**0.5
+    #listSD = np.std(ran_list) 
+    print("%.3f" %mean)
+    print("%.14f" %listSD)

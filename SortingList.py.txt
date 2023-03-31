@@ -1,0 +1,12 @@
+firstline = ["Happy", "families", "are", "all", "alike;", "every", \
+              "unhappy", "family", "is", "unhappy", "in", "its", "own", \
+              "way.", "Leo Tolstoy", "Anna Karenina"] 
+#%%
+def problem4_1(wordlist):
+    """ Takes a word list prints it, sorts it, and prints the sorted list """
+    print(wordlist)
+    wordlistSort = sorted(wordlist,key =str.lower)
+    print(wordlistSort)
+    # replace this pass (a do-nothing) statement with your code
+ 
+#problem4_1(firstline)
